@@ -4,7 +4,7 @@ assertj-core = "3.13.2"
 slf4j-api = "2.0.13"
 log4j = "2.25.0"
 lombok-plugin = "8.13.1"
-sonarqube-plugin = "4.4.1.3373"
+sonarqube-plugin = "6.2.0.5505"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
