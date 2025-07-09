@@ -1,5 +1,7 @@
 package com.imohsenb.ISO8583.builders;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.imohsenb.ISO8583.entities.ISOMessage;
 import com.imohsenb.ISO8583.enums.FIELDS;
 import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
@@ -11,6 +13,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@Slf4j
 public class GeneralMessageClassBuilderTest {
 
     @Test
@@ -23,7 +26,7 @@ public class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F11_STAN, "1")
                 .setField(FIELDS.F24_NII_FunctionCode, "333")
                 .build();
-        System.out.println(isoMessage.toString());
+        log.debug(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("08002020010000000000920000000001F333");
 
     }
@@ -38,7 +41,7 @@ public class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F11_STAN, "1")
                 .setField(FIELDS.F24_NII_FunctionCode, "333")
                 .build();
-        System.out.println(isoMessage.toString());
+        log.debug(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("08002020010000000000920000000001333F");
     }
 
@@ -77,7 +80,7 @@ public class GeneralMessageClassBuilderTest {
                 .processCode("920000")
                 .setField(FIELDS.F2_PAN, "1234567890123456")
                 .build();
-        System.out.println(isoMessage.toString());
+        log.debug(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("08006000000000000000161234567890123456920000");
     }
 
@@ -90,7 +93,7 @@ public class GeneralMessageClassBuilderTest {
                 .processCode("920000")
                 .setField(FIELDS.F2_PAN, "1234567890123456789")
                 .build();
-        System.out.println(isoMessage.toString());
+        log.debug(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("080060000000000000001901234567890123456789920000");
     }
 }

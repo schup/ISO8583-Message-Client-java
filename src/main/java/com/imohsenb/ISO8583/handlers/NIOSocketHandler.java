@@ -1,5 +1,7 @@
 package com.imohsenb.ISO8583.handlers;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.imohsenb.ISO8583.exceptions.ISOClientException;
 import com.imohsenb.ISO8583.interfaces.ISOClientEventListener;
 import com.imohsenb.ISO8583.interfaces.SocketHandler;
@@ -19,6 +21,7 @@ import java.util.Arrays;
 /**
  * @author Mohsen Beiranvand
  */
+@Slf4j
 public class NIOSocketHandler implements SocketHandler {
 
     private SocketChannel socketChannel;
@@ -147,7 +150,7 @@ public class NIOSocketHandler implements SocketHandler {
                     while (myNetData.hasRemaining()) {
                         socketChannel.write(myNetData);
                     }
-                    System.out.println("Message sent to the server: " + StringUtil.fromByteArray(myAppData.array()));
+                    log.info("Message sent to the server: {}", StringUtil.fromByteArray(myAppData.array()));
                     break;
                 case BUFFER_OVERFLOW:
                     myNetData = sslHandler.enlargePacketBuffer(engine, myNetData);
@@ -208,7 +211,7 @@ public class NIOSocketHandler implements SocketHandler {
             try {
                 Thread.sleep(waitToReadMillis);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("Error during read operation", e);
             }
         }
 
@@ -230,7 +233,7 @@ public class NIOSocketHandler implements SocketHandler {
                 myNetData = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error during read operation", e);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.imohsenb.ISO8583.entities;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.imohsenb.ISO8583.enums.FIELDS;
 import com.imohsenb.ISO8583.exceptions.ISOException;
 import com.imohsenb.ISO8583.security.ISOMacGenerator;
@@ -16,6 +18,7 @@ import java.util.TreeMap;
  *
  * @author Mohsen Beiranvand
  */
+@Slf4j
 public class ISOMessage {
 
     private TreeMap<Integer, byte[]> dataElements = new TreeMap<>();
@@ -331,7 +334,7 @@ public class ISOMessage {
     public boolean validateMac(ISOMacGenerator isoMacGenerator) throws ISOException {
 
         if (!fieldExits(FIELDS.F64_MAC) || getField(FIELDS.F64_MAC).length == 0) {
-            System.out.println("validate mac : not exists");
+            log.info("validate mac : not exists");
             return false;
         }
         byte[] mBody = new byte[getBody().length - 8];

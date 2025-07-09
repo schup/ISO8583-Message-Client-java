@@ -1,5 +1,7 @@
 package com.imohsenb.ISO8583.handlers;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.imohsenb.ISO8583.builders.ISOClientBuilder;
 import com.imohsenb.ISO8583.interfaces.SSLKeyManagers;
 import com.imohsenb.ISO8583.interfaces.SSLProtocol;
@@ -15,6 +17,7 @@ import java.security.SecureRandom;
 /**
  * @author Mohsen Beiranvand
  */
+@Slf4j
 public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
 {
 
@@ -72,7 +75,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
     public boolean doHandshake(SocketChannel socketChannel, SSLEngine engine,
                                ByteBuffer myNetData, ByteBuffer peerNetData, ByteBuffer peerAppData, ByteBuffer myAppData) throws Exception {
 
-        System.out.println("About to do handshake...");
+        log.info("About to do handshake...");
 
         SSLEngineResult result;
         SSLEngineResult.HandshakeStatus handshakeStatus;
@@ -96,7 +99,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         try {
                             engine.closeInbound();
                         } catch (SSLException e) {
-                            System.out.println("This engine was forced to close inbound, without having received the proper SSL/TLS close notification label from the peer, due to end of stream.");
+                            log.warn("This engine was forced to close inbound, without having received the proper SSL/TLS close notification label from the peer, due to end of stream.");
                         }
                         engine.closeOutbound();
                         // After closeOutbound the engine will be set to WRAP state, in order to try to send a close label to the client.
@@ -109,7 +112,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         peerNetData.compact();
                         handshakeStatus = result.getHandshakeStatus();
                     } catch (SSLException sslException) {
-                        System.out.println("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        log.error("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
@@ -143,7 +146,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         result = engine.wrap(myAppData, myNetData);
                         handshakeStatus = result.getHandshakeStatus();
                     } catch (SSLException sslException) {
-                        System.out.println("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        log.error("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
@@ -172,7 +175,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                                 // At this point the handshake status will probably be NEED_UNWRAP so we make sure that peerNetData is clear to read.
                                 peerNetData.clear();
                             } catch (Exception e) {
-                                System.out.println("Failed to send server's CLOSE label due to socket channel's failure.");
+                                log.error("Failed to send server's CLOSE label due to socket channel's failure.");
                                 handshakeStatus = engine.getHandshakeStatus();
                             }
                             break;
