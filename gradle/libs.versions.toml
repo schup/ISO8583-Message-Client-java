@@ -1,0 +1,8 @@
+[versions]
+junit = "4.12"
+assertj-core = "3.13.2"
+
+[libraries]
+junit = { module = "junit:junit", version.ref = "junit" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
+
