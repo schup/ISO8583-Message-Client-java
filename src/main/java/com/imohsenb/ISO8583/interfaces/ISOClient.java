@@ -11,7 +11,6 @@ import java.io.IOException;
 public interface ISOClient {
 
     /**
-     *
      * @throws ISOClientException
      * @throws IOException
      */
@@ -23,7 +22,6 @@ public interface ISOClient {
     void disconnect();
 
     /**
-     *
      * @param isoMessage
      * @return
      * @throws ISOClientException
@@ -32,20 +30,16 @@ public interface ISOClient {
     byte[] sendMessageSync(ISOMessage isoMessage) throws ISOClientException, IOException;
 
     /**
-     *
-     *
      * @return
      */
     boolean isConnected();
 
     /**
-     *
      * @return
      */
     boolean isClosed();
 
     /**
-     *
      * @param isoClientEventListener
      */
     void setEventListener(ISOClientEventListener isoClientEventListener);

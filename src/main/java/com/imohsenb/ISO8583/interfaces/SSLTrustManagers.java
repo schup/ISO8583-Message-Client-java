@@ -7,7 +7,6 @@ import javax.net.ssl.TrustManager;
 /**
  * @author Mohsen Beiranvand
  */
-public interface SSLTrustManagers
-{
+public interface SSLTrustManagers {
     ISOClientBuilder.ClientBuilder setTrustManagers(TrustManager[] trustManagers);
 }

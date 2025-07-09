@@ -1,8 +1,13 @@
 package com.imohsenb.ISO8583.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author Mohsen Beiranvand
  */
+@Getter
+@RequiredArgsConstructor
 public enum MESSAGE_FUNCTION {
 
     Request("0"),
@@ -10,12 +15,5 @@ public enum MESSAGE_FUNCTION {
 
     private final String code;
 
-    MESSAGE_FUNCTION(String code) {
-        this.code = code;
-    }
-
-    public String getCode() {
-        return code;
-    }
 
 }

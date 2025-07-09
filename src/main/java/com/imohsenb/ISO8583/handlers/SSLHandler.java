@@ -4,6 +4,7 @@ import com.imohsenb.ISO8583.builders.ISOClientBuilder;
 import com.imohsenb.ISO8583.interfaces.SSLKeyManagers;
 import com.imohsenb.ISO8583.interfaces.SSLProtocol;
 import com.imohsenb.ISO8583.interfaces.SSLTrustManagers;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.*;
 import java.nio.ByteBuffer;
@@ -15,8 +16,8 @@ import java.security.SecureRandom;
 /**
  * @author Mohsen Beiranvand
  */
-public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
-{
+@Slf4j
+public class SSLHandler implements SSLProtocol, SSLKeyManagers, SSLTrustManagers {
 
     private final ISOClientBuilder.ClientBuilder clientBuilder;
     private String protocol;
@@ -33,7 +34,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
         return this;
     }
 
-    public SSLTrustManagers setKeyManagers(KeyManager[] keyManagers){
+    public SSLTrustManagers setKeyManagers(KeyManager[] keyManagers) {
         this.keyManagers = keyManagers;
         return this;
     }
@@ -49,22 +50,25 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
         SSLContext context = SSLContext.getInstance(protocol);
 
         //init trust manager
-        if(trustManagers == null)
+        if (trustManagers == null) {
             trustManagers = new TrustManager[]{
                     new X509TrustManager() {
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[] {};
+                            return new java.security.cert.X509Certificate[]{};
                         }
+
                         public void checkClientTrusted(
                                 java.security.cert.X509Certificate[] certs, String authType) {
                         }
+
                         public void checkServerTrusted(
                                 java.security.cert.X509Certificate[] certs, String authType) {
                         }
                     }
             };
+        }
 
-        context.init(keyManagers,trustManagers, SecureRandom.getInstance("SHA1PRNG"));
+        context.init(keyManagers, trustManagers, SecureRandom.getInstance("SHA1PRNG"));
 
         return context;
     }
@@ -72,7 +76,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
     public boolean doHandshake(SocketChannel socketChannel, SSLEngine engine,
                                ByteBuffer myNetData, ByteBuffer peerNetData, ByteBuffer peerAppData, ByteBuffer myAppData) throws Exception {
 
-        System.out.println("About to do handshake...");
+        log.info("About to do handshake...");
 
         SSLEngineResult result;
         SSLEngineResult.HandshakeStatus handshakeStatus;
@@ -96,7 +100,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         try {
                             engine.closeInbound();
                         } catch (SSLException e) {
-                            System.out.println("This engine was forced to close inbound, without having received the proper SSL/TLS close notification label from the peer, due to end of stream.");
+                            log.warn("This engine was forced to close inbound, without having received the proper SSL/TLS close notification label from the peer, due to end of stream.");
                         }
                         engine.closeOutbound();
                         // After closeOutbound the engine will be set to WRAP state, in order to try to send a close label to the client.
@@ -109,7 +113,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         peerNetData.compact();
                         handshakeStatus = result.getHandshakeStatus();
                     } catch (SSLException sslException) {
-                        System.out.println("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        log.error("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
@@ -143,13 +147,13 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         result = engine.wrap(myAppData, myNetData);
                         handshakeStatus = result.getHandshakeStatus();
                     } catch (SSLException sslException) {
-                        System.out.println("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        log.error("A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
                     }
                     switch (result.getStatus()) {
-                        case OK :
+                        case OK:
                             myNetData.flip();
                             while (myNetData.hasRemaining()) {
                                 socketChannel.write(myNetData);
@@ -157,12 +161,12 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                             break;
                         case BUFFER_OVERFLOW:
                             // Will occur if there is not enough space in myNetData buffer to write all the data that would be generated by the method wrap.
-                            // Since myNetData is set to session's packet size we should not get to this point because SSLEngine is supposed
+                            // Since myNetData is set to session's packet size, we should not get to this point because SSLEngine is supposed
                             // to produce messages smaller or equal to that, but a general handling would be the following:
                             myNetData = enlargePacketBuffer(engine, myNetData);
                             break;
                         case BUFFER_UNDERFLOW:
-                            throw new SSLException("Buffer underflow occured after a wrap. I don't think we should ever get here.");
+                            throw new SSLException("Buffer underflow occurred after a wrap. I don't think we should ever get here.");
                         case CLOSED:
                             try {
                                 myNetData.flip();
@@ -172,7 +176,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                                 // At this point the handshake status will probably be NEED_UNWRAP so we make sure that peerNetData is clear to read.
                                 peerNetData.clear();
                             } catch (Exception e) {
-                                System.out.println("Failed to send server's CLOSE label due to socket channel's failure.");
+                                log.error("Failed to send server's CLOSE label due to socket channel's failure.");
                                 handshakeStatus = engine.getHandshakeStatus();
                             }
                             break;

@@ -14,8 +14,7 @@ import com.imohsenb.ISO8583.utils.StringUtil;
  */
 public class ISOMessageBuilder {
 
-    public static MessageClass Packer(VERSION version)
-    {
+    public static MessageClass Packer(VERSION version) {
         return new Builder(version.getCode());
     }
 
@@ -30,53 +29,52 @@ public class ISOMessageBuilder {
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> authorization() {
-            return new GeneralMessageClassBuilder(version,"1");
+            return new GeneralMessageClassBuilder(version, "1");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> financial() {
-            return new GeneralMessageClassBuilder(version,"2");
+            return new GeneralMessageClassBuilder(version, "2");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> fileAction() {
-            return new GeneralMessageClassBuilder(version,"3");
+            return new GeneralMessageClassBuilder(version, "3");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> reversal() {
-            return new GeneralMessageClassBuilder(version,"4");
+            return new GeneralMessageClassBuilder(version, "4");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> reconciliation() {
-            return new GeneralMessageClassBuilder(version,"5");
+            return new GeneralMessageClassBuilder(version, "5");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> administrative() {
-            return new GeneralMessageClassBuilder(version,"6");
+            return new GeneralMessageClassBuilder(version, "6");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> feeCollection() {
-            return new GeneralMessageClassBuilder(version,"7");
+            return new GeneralMessageClassBuilder(version, "7");
         }
 
         @Override
         public MessagePacker<GeneralMessageClassBuilder> networkManagement() {
-            return new GeneralMessageClassBuilder(version,"8");
+            return new GeneralMessageClassBuilder(version, "8");
         }
 
     }
 
 
-    public static UnpackMessage Unpacker()
-    {
+    public static UnpackMessage Unpacker() {
         return new UnpackBuilder();
     }
 
-    public static class UnpackBuilder implements UnpackMessage,UnpackMethods {
+    public static class UnpackBuilder implements UnpackMessage, UnpackMethods {
 
         private byte[] message;
 
@@ -99,7 +97,6 @@ public class ISOMessageBuilder {
             finalMessage.setMessage(message);
             return finalMessage;
         }
-
 
 
     }

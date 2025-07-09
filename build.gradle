@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+    alias(libs.plugins.lombok)
+}
+
+group = 'com.imohsenb'
+version = '1.0.6-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation(
+            libs.slf4j.api
+    )
+
+    testImplementation(
+            platform(libs.junit.bom),
+            libs.junit.jupiter,
+            libs.assertj.core
+    )
+    testRuntimeOnly(
+            libs.junit.platform.launcher,
+            libs.log4j,
+            libs.log4j.slf4j2.impl
+    )
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('javadocJar', Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier = 'sources'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'ISO-8583 Message Packer and Unpacker with ISOClient in Java'
+                description = 'ISO8583 Message Packer and Unpakcer with ISOClient for communication with iso server'
+                url = 'https://github.com/imohsenb/ISO8583-Message-Client-java'
+
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://github.com/imohsenb/ISO8583-Message-Client-java/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'imohsenb'
+                        name = 'Mohsen Beiranvand'
+                        email = 'imohsen.b@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/imohsenb/ISO8583-Message-Client-java.git'
+                    developerConnection = 'scm:git:ssh://github.com/imohsenb/ISO8583-Message-Client-java.git'
+                    url = 'https://github.com/imohsenb/ISO8583-Message-Client-java'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
