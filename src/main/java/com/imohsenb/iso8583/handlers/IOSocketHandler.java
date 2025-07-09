@@ -36,8 +36,7 @@ public class IOSocketHandler implements SocketHandler {
 
             context = sslHandler.getContext();
             SSLSocketFactory sslsocketfactory = context.getSocketFactory();
-            SSLSocket socket = (SSLSocket) sslsocketfactory.createSocket(
-                    host, port);
+            SSLSocket socket = (SSLSocket) sslsocketfactory.createSocket(host, port);
             socket.setNeedClientAuth(false);
 
             socket.startHandshake();

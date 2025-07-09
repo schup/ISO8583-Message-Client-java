@@ -17,7 +17,6 @@ class GeneralMessageClassBuilderTest {
 
     @Test
     void checkLeftPadding() throws Exception {
-        log.info("Hello");
         ISOMessage isoMessage = ISOMessageBuilder.packer(Version.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
@@ -27,7 +26,7 @@ class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F24_NII_FunctionCode, "333")
                 .build();
         log.debug(isoMessage.toString());
-        assertThat(isoMessage.toString()).isEqualTo("08002020010000000000920000000001F333");
+        assertThat(isoMessage).hasToString("08002020010000000000920000000001F333");
 
     }
 
@@ -42,7 +41,7 @@ class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F24_NII_FunctionCode, "333")
                 .build();
         log.debug(isoMessage.toString());
-        assertThat(isoMessage.toString()).isEqualTo("08002020010000000000920000000001333F");
+        assertThat(isoMessage).hasToString("08002020010000000000920000000001333F");
     }
 
     @Test
@@ -55,7 +54,7 @@ class GeneralMessageClassBuilderTest {
                 .setHeader("1002230000")
                 .build();
         //Then
-        assertThat(isoMessage.toString()).isEqualTo("100223000008002000000000000000920000");
+        assertThat(isoMessage).hasToString("100223000008002000000000000000920000");
     }
 
     @Test
@@ -67,7 +66,7 @@ class GeneralMessageClassBuilderTest {
                 .processCode("920000")
                 .build();
         //Then
-        assertThat(isoMessage.toString()).isEqualTo("08002000000000000000920000");
+        assertThat(isoMessage).hasToString("08002000000000000000920000");
     }
 
 
@@ -81,11 +80,11 @@ class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F2_PAN, "1234567890123456")
                 .build();
         log.debug(isoMessage.toString());
-        assertThat(isoMessage.toString()).isEqualTo("08006000000000000000161234567890123456920000");
+        assertThat(isoMessage).hasToString("08006000000000000000161234567890123456920000");
     }
 
     @Test
-    void OddPanShouldHaveCorrectLengthPrefixAndPaddingChar() throws Exception {
+    void oddPanShouldHaveCorrectLengthPrefixAndPaddingChar() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.packer(Version.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
@@ -94,6 +93,6 @@ class GeneralMessageClassBuilderTest {
                 .setField(FIELDS.F2_PAN, "1234567890123456789")
                 .build();
         log.debug(isoMessage.toString());
-        assertThat(isoMessage.toString()).isEqualTo("080060000000000000001901234567890123456789920000");
+        assertThat(isoMessage).hasToString("080060000000000000001901234567890123456789920000");
     }
 }

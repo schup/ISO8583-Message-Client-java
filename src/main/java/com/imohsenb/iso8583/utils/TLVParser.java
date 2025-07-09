@@ -1,15 +1,21 @@
 package com.imohsenb.iso8583.utils;
 
 
+import lombok.experimental.UtilityClass;
+
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
+ * TODO is this class in use?
+ *
  * @author Mohsen Beiranvand
  */
+@UtilityClass
 public final class TLVParser {
 
-    public static HashMap<String, byte[]> parse(byte[] message, int tagLength, int lengthOfDataLen) {
+    public static Map<String, byte[]> parse(byte[] message, int tagLength, int lengthOfDataLen) {
         HashMap<String, byte[]> parts = new HashMap<>();
 
         int offset = 0;

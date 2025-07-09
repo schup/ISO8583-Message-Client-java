@@ -12,22 +12,22 @@ class FixedBitSetTest {
     @Test
     void testConstructorAndToString() {
         FixedBitSet bitSet = new FixedBitSet(8);
-        assertThat(bitSet.toString()).isEqualTo("00000000");
+        assertThat(bitSet).hasToString("00000000");
 
         bitSet.set(0);
         bitSet.set(7);
-        assertThat(bitSet.toString()).isEqualTo("10000001");
+        assertThat(bitSet).hasToString("10000001");
     }
 
     @Test
     void testFromHexString() {
         FixedBitSet bitSet = new FixedBitSet(16);
         bitSet.fromHexString("F00F");
-        assertThat(bitSet.toString()).isEqualTo("1111000000001111");
+        assertThat(bitSet).hasToString("1111000000001111");
 
         FixedBitSet bitSet2 = new FixedBitSet(4);
         bitSet2.fromHexString("A");
-        assertThat(bitSet2.toString()).isEqualTo("1010");
+        assertThat(bitSet2).hasToString("1010");
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.imohsenb.iso8583.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -11,9 +13,10 @@ import java.util.Arrays;
  *
  * @author Mohsen Beiranvand
  */
+@UtilityClass
 public final class StringUtil {
 
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     /**
      * Converts a byte array to its hexadecimal string representation.

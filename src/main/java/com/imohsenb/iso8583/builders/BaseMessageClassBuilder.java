@@ -1,7 +1,13 @@
 package com.imohsenb.iso8583.builders;
 
 import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.enums.*;
+import com.imohsenb.iso8583.enums.FIELDS;
+import com.imohsenb.iso8583.enums.FieldType;
+import com.imohsenb.iso8583.enums.MESSAGE_FUNCTION;
+import com.imohsenb.iso8583.enums.MESSAGE_ORIGIN;
+import com.imohsenb.iso8583.enums.PC_ATC;
+import com.imohsenb.iso8583.enums.PC_TTC_100;
+import com.imohsenb.iso8583.enums.PC_TTC_200;
 import com.imohsenb.iso8583.exceptions.ISOException;
 import com.imohsenb.iso8583.interfaces.DataElement;
 import com.imohsenb.iso8583.interfaces.MessagePacker;
@@ -102,60 +108,68 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
         }
         // length check and padding
         if (field.isFixed()) {
-            if (field.getLength() % 2 != 0) {
-                if (field.getType().equals("n")) {
-                    fValue = padding(field, value, fValue);
-                }
-            } else if (field.getLength() - (fValue.length * 2) > 0 && field.getType().equals("n")) {
-
-                ByteArray valueBuffer = new ByteArray();
-                valueBuffer.append(fValue);
-                valueBuffer.prepend(new String(new char[(field.getLength() - (fValue.length * 2)) / 2]).getBytes());
-                fValue = valueBuffer.array();
-                valueBuffer.clear();
-                valueBuffer = null;
-            }
-
-            if (fValue.length > field.getLength()) {
-                fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
-            }
-
+            fValue = getFixedValue(field, value, fValue);
         } else {
-
-            int dLen = fValue.length;
-            if (field.getType().equals("z")) {
-                if (dLen > field.getLength()) {
-                    fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
-                }
-                dLen = fValue.length * 2;
-            }
-
-            ByteArray valueBuffer = new ByteArray();
-            valueBuffer.append(fValue);
-
-            switch (field.getFormat()) {
-                case "LL":
-                    if (2 - String.valueOf(valueLength).length() <= 0) {
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(valueLength + ""));
-                    } else {
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(valueLength).length()) + "d%s", 0, valueLength)));
-                    }
-                    break;
-                case "LLL":
-                    valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%0" + (4 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
-                    break;
-                default:
-                    // nothing to do there
-            }
-
-            fValue = valueBuffer.array();
-            valueBuffer.clear();
-            valueBuffer = null;
+            fValue = getVariableValue(field, valueLength, fValue);
         }
 
         dataElements.put(field.getNo(), fValue);
 
         return this;
+    }
+
+    private static byte[] getVariableValue(FIELDS field, int valueLength, byte[] fValue) {
+        int dLen = fValue.length;
+        if (field.getType().equals("z")) {
+            if (dLen > field.getLength()) {
+                fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
+            }
+            dLen = fValue.length * 2;
+        }
+
+        ByteArray valueBuffer = new ByteArray();
+        valueBuffer.append(fValue);
+
+        switch (field.getFormat()) {
+            case "LL":
+                if (2 - String.valueOf(valueLength).length() <= 0) {
+                    valueBuffer.prepend(StringUtil.hexStringToByteArray(valueLength + ""));
+                } else {
+                    valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(valueLength).length()) + "d%s", 0, valueLength)));
+                }
+                break;
+            case "LLL":
+                valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%0" + (4 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
+                break;
+            default:
+                // nothing to do there
+        }
+
+        fValue = valueBuffer.array();
+        valueBuffer.clear();
+        valueBuffer = null;
+        return fValue;
+    }
+
+    private byte[] getFixedValue(FIELDS field, byte[] value, byte[] fValue) {
+        if (field.getLength() % 2 != 0) {
+            if (field.getType() == FieldType.N) {
+                fValue = padding(field, value, fValue);
+            }
+        } else if (field.getLength() - (fValue.length * 2) > 0 && field.getType() == FieldType.N) {
+
+            ByteArray valueBuffer = new ByteArray();
+            valueBuffer.append(fValue);
+            valueBuffer.prepend(new String(new char[(field.getLength() - (fValue.length * 2)) / 2]).getBytes());
+            fValue = valueBuffer.array();
+            valueBuffer.clear();
+            valueBuffer = null;
+        }
+
+        if (fValue.length > field.getLength()) {
+            fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
+        }
+        return fValue;
     }
 
     private byte[] padding(FIELDS field, byte[] value, byte[] fValue) {
@@ -192,7 +206,7 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
 
     public DataElement<T> setField(FIELDS field, String value) throws ISOException {
         switch (field.getType()) {
-            case "n":
+            case N:
                 setField(field, StringUtil.hexStringToByteArray(value), value.length());
                 break;
             default:

@@ -1,6 +1,7 @@
 package com.imohsenb.iso8583.entities;
 
 import com.imohsenb.iso8583.enums.FIELDS;
+import com.imohsenb.iso8583.enums.FieldType;
 import com.imohsenb.iso8583.exceptions.ISOException;
 import com.imohsenb.iso8583.security.ISOMacGenerator;
 import com.imohsenb.iso8583.utils.FixedBitSet;
@@ -146,7 +147,7 @@ public class ISOMessage {
     public String getStringField(FIELDS field, boolean asciiFix) throws ISOException {
 
         String temp = StringUtil.fromByteArray(getField(field.getNo()));
-        if (asciiFix && !field.getType().equals("n")) {
+        if (asciiFix && field.getType() != FieldType.N) {
             return StringUtil.hexToAscii(temp);
         }
         return temp;
@@ -232,7 +233,7 @@ public class ISOMessage {
             if (field.isFixed()) {
                 int len = field.getLength();
                 switch (field.getType()) {
-                    case "n":
+                    case N:
                         if (len % 2 != 0) {
                             len++;
                         }
@@ -256,12 +257,10 @@ public class ISOMessage {
                         break;
                 }
 
-                int flen = Integer.valueOf(
-                        StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
+                int flen = Integer.valueOf(StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
 
                 switch (field.getType()) {
-                    case "z":
-                    case "n":
+                    case Z, N:
                         flen /= 2;
                 }
 

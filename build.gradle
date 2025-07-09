@@ -34,13 +34,15 @@ dependencies {
     testRuntimeOnly(
             libs.junit.platform.launcher,
             libs.log4j,
-            libs.log4j.slf4j2.impl
+            libs.log4j.slf4j2.impl,
+            libs.log4j.api
     )
 
 }
 
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
 }
 
 

@@ -14,7 +14,7 @@ class StringUtilTest {
         byte[] data = {(byte) 0xDE, (byte) 0xAD, (byte) 0xBE, (byte) 0xEF};
         assertThat(StringUtil.fromByteArray(data)).isEqualTo("DEADBEEF");
         byte[] emptyData = {};
-        assertThat(StringUtil.fromByteArray(emptyData)).isEqualTo("");
+        assertThat(StringUtil.fromByteArray(emptyData)).isEmpty();
     }
 
     @Test
@@ -26,13 +26,13 @@ class StringUtilTest {
     @Test
     void testAsciiToHex_String() {
         assertThat(StringUtil.asciiToHex("Hello")).isEqualTo("48656c6c6f");
-        assertThat(StringUtil.asciiToHex("")).isEqualTo("");
+        assertThat(StringUtil.asciiToHex("")).isEmpty();
     }
 
     @Test
     void testHexToAscii() {
         assertThat(StringUtil.hexToAscii("48656c6c6f")).isEqualTo("Hello");
-        assertThat(StringUtil.hexToAscii("")).isEqualTo("");
+        assertThat(StringUtil.hexToAscii("")).isEmpty();
     }
 
     @Test
@@ -59,7 +59,7 @@ class StringUtilTest {
 
         ByteBuffer emptyBuffer = ByteBuffer.wrap(new byte[]{});
         emptyBuffer.position(emptyBuffer.limit());
-        assertThat(StringUtil.fromByteBuffer(emptyBuffer)).isEqualTo("");
+        assertThat(StringUtil.fromByteBuffer(emptyBuffer)).isEmpty();
     }
 
     @Test
@@ -83,7 +83,7 @@ class StringUtilTest {
     @Test
     void testToHexString_String() {
         assertThat(StringUtil.toHexString("abc")).isEqualTo("\\u0061\\u0062\\u0063");
-        assertThat(StringUtil.toHexString("")).isEqualTo("");
+        assertThat(StringUtil.toHexString("")).isEmpty();
     }
 
     @Test
