@@ -3,4 +3,4 @@
 /target
 *.iml
 /doc
-settings.xml
+settings.xmlbuild/
