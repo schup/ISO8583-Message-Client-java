@@ -54,7 +54,7 @@ public class FixedBitSet extends BitSet {
 
         for (int c = 0; c < nbits; c = c + 4) {
             int decimal = Integer.parseInt(bStr.substring(c, c + 4), 2);
-            String hexStr = Integer.toString(decimal, 16);
+            String hexStr = Integer.toHexString(decimal).toUpperCase();
             buffer.append(hexStr);
         }
         return buffer.toString();

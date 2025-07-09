@@ -68,7 +68,7 @@ public final class ByteArray {
     private void expandBuffer() {
 
         int newSize = size + frameSize;
-        byte[] dest = new byte[size];
+        byte[] dest = new byte[newSize];
         System.arraycopy(data, 0, dest, 0, size);
         data = dest;
         size = newSize;

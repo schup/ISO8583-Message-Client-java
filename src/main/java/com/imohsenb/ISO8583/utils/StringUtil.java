@@ -124,7 +124,7 @@ public final class StringUtil {
         while (hex.length() < 4) {
             hex = "0" + hex;
         }
-        hex = "\\u" + hex;
+        hex = "\\u" + hex.toUpperCase();
         return hex;
     }
 
