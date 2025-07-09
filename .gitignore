@@ -4,3 +4,4 @@
 *.iml
 /doc
 settings.xmlbuild/
+.idea/
