@@ -46,6 +46,7 @@ public class NIOSocketHandler implements SocketHandler {
 
 
             while (!socketChannel.finishConnect()) {
+                // wait for finish
             }
 
             // Create byte buffers to use for holding application and encoded data
@@ -77,6 +78,7 @@ public class NIOSocketHandler implements SocketHandler {
 
 
         while (!socketChannel.finishConnect()) {
+            // wait until connected
         }
 
         myAppData = ByteBuffer.allocate(1024);
@@ -92,7 +94,7 @@ public class NIOSocketHandler implements SocketHandler {
 
         if (sslHandler != null) {
             byte[] data = sendMessageSyncOverSsl(buffer);
-            return Arrays.copyOfRange(data, (length > 0) ? (length) : (0), data.length);
+            return Arrays.copyOfRange(data, Math.max(length, 0), data.length);
         } else {
 
             myAppData.clear();
@@ -116,7 +118,7 @@ public class NIOSocketHandler implements SocketHandler {
 
 
             if (myAppData.position() > length) {
-                return Arrays.copyOfRange(myAppData.array(), (length > 0) ? (length) : (0), myAppData.position());
+                return Arrays.copyOfRange(myAppData.array(), Math.max(length, 0), myAppData.position());
             }
 
             return new byte[0];

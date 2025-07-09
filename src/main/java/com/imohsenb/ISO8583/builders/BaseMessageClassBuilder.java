@@ -99,7 +99,7 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
         if (value == null) {
             throw new ISOException(field.name() + " is Null");
         }
-        //length check and padding
+        // length check and padding
         if (field.isFixed()) {
             if (field.getLength() % 2 != 0) {
                 if (field.getType().equals("n")) {

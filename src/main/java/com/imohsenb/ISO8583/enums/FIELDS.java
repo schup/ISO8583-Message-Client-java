@@ -85,8 +85,8 @@ public enum FIELDS {
     private final boolean fixed;
     private final String format;
 
-    
-    private static final Map<Integer, FIELDS> map = new HashMap<Integer, FIELDS>();
+
+    private static final Map<Integer, FIELDS> map = new HashMap<>();
 
     static {
         for (FIELDS field : FIELDS.values()) {

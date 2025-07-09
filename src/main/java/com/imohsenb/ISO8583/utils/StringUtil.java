@@ -62,18 +62,15 @@ public final class StringUtil {
         }
 
         Arrays.fill(hexChars, '\u0000');
-        hexChars = null;
-
         return res;
     }
 
     public static byte[] hexStringToByteArray(String s) {
         int len = s.length();
-        boolean padd = false;
+
         if (len % 2 != 0) {
             s = "0" + s;
             len++;
-            padd = true;
         }
 
         byte[] data = new byte[len / 2];
@@ -105,7 +102,7 @@ public final class StringUtil {
     }
 
     public static String toHexString(String str) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             sb.append(toHexString(str.charAt(i)));
         }
@@ -114,10 +111,11 @@ public final class StringUtil {
 
     /**
      * convert into Hexadecimal notation of Unicode.<br>
-     * example)a?\u0061
+     * example:<br>
+     * a = \u0061
      *
      * @param ch
-     * @return
+     * @return hex
      */
     public static String toHexString(char ch) {
         String hex = Integer.toHexString(ch);

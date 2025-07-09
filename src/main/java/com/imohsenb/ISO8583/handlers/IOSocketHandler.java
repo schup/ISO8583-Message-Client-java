@@ -3,6 +3,7 @@ package com.imohsenb.ISO8583.handlers;
 import com.imohsenb.ISO8583.exceptions.ISOClientException;
 import com.imohsenb.ISO8583.interfaces.ISOClientEventListener;
 import com.imohsenb.ISO8583.interfaces.SocketHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 /**
  * @author Mohsen Beiranvand
  */
+@Slf4j
 public class IOSocketHandler implements SocketHandler {
     private Socket socket;
     private BufferedOutputStream socketWriter;
@@ -118,7 +120,6 @@ public class IOSocketHandler implements SocketHandler {
         } finally {
             readBuffer.clear();
             readBuffer.compact();
-            readBuffer = null;
         }
     }
 
@@ -134,7 +135,7 @@ public class IOSocketHandler implements SocketHandler {
                 socket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("Error closing socket", e);
         }
     }
 
