@@ -1,11 +1,10 @@
 package com.imohsenb.ISO8583.handlers;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.imohsenb.ISO8583.exceptions.ISOClientException;
 import com.imohsenb.ISO8583.interfaces.ISOClientEventListener;
 import com.imohsenb.ISO8583.interfaces.SocketHandler;
 import com.imohsenb.ISO8583.utils.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -56,9 +55,9 @@ public class NIOSocketHandler implements SocketHandler {
             peerAppData = ByteBuffer.allocate(session.getApplicationBufferSize());
             peerNetData = ByteBuffer.allocate(session.getPacketBufferSize());
 
-            boolean connected = sslHandler.doHandshake(socketChannel, engine, myNetData, peerNetData,peerAppData,myAppData);
+            boolean connected = sslHandler.doHandshake(socketChannel, engine, myNetData, peerNetData, peerAppData, myAppData);
 
-            if(!connected)
+            if (!connected)
                 throw new ISOClientException("Handshake not performed well");
 
             postInit();
@@ -90,19 +89,16 @@ public class NIOSocketHandler implements SocketHandler {
 
     public byte[] sendMessageSync(ByteBuffer buffer, int length) throws IOException {
 
-        if(sslHandler != null)
-        {
+        if (sslHandler != null) {
             byte[] data = sendMessageSyncOverSsl(buffer);
-            return Arrays.copyOfRange(data,(length>0)?(length):(0),data.length);
-        }
-        else{
+            return Arrays.copyOfRange(data, (length > 0) ? (length) : (0), data.length);
+        } else {
 
             myAppData.clear();
             myAppData.put(buffer.array());
             myAppData.flip();
 
-            while(myAppData.hasRemaining())
-            {
+            while (myAppData.hasRemaining()) {
                 socketChannel.write(myAppData);
             }
 
@@ -111,16 +107,15 @@ public class NIOSocketHandler implements SocketHandler {
             myAppData.flip();
 
 
-
             int r;
-            do{
+            do {
                 r = socketChannel.read(myAppData);
             }
-            while (myAppData.remaining() >=0 && r == 0);
+            while (myAppData.remaining() >= 0 && r == 0);
 
 
-            if(myAppData.position() > length)
-                return Arrays.copyOfRange(myAppData.array(),(length>0)?(length):(0),myAppData.position());
+            if (myAppData.position() > length)
+                return Arrays.copyOfRange(myAppData.array(), (length > 0) ? (length) : (0), myAppData.position());
 
             return new byte[0];
         }
@@ -220,14 +215,14 @@ public class NIOSocketHandler implements SocketHandler {
 
     public void close() {
         try {
-            if(socketChannel!=null)
+            if (socketChannel != null)
                 socketChannel.close();
-            if(myAppData!=null) {
+            if (myAppData != null) {
                 myAppData.compact();
                 myAppData.clear();
                 myAppData = null;
             }
-            if(myNetData!=null) {
+            if (myNetData != null) {
                 myNetData.compact();
                 myNetData.clear();
                 myNetData = null;

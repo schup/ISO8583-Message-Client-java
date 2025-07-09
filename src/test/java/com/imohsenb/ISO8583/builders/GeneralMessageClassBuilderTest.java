@@ -8,16 +8,16 @@ import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
 import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 import com.imohsenb.ISO8583.enums.VERSION;
 import com.imohsenb.ISO8583.exceptions.ISOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
-public class GeneralMessageClassBuilderTest {
+class GeneralMessageClassBuilderTest {
 
     @Test
-    public void checkLeftPadding() throws Exception {
+    void checkLeftPadding() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
@@ -32,7 +32,7 @@ public class GeneralMessageClassBuilderTest {
     }
 
     @Test
-    public void checkRightPadding() throws Exception {
+    void checkRightPadding() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setRightPadding((byte) 0xF)
@@ -46,7 +46,7 @@ public class GeneralMessageClassBuilderTest {
     }
 
     @Test
-    public void checkSetHeader() throws ISOException {
+    void checkSetHeader() throws ISOException {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setRightPadding((byte) 0xF)
@@ -59,7 +59,7 @@ public class GeneralMessageClassBuilderTest {
     }
 
     @Test
-    public void checkWithoutSetHeader() throws ISOException {
+    void checkWithoutSetHeader() throws ISOException {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setRightPadding((byte) 0xF)
@@ -72,7 +72,7 @@ public class GeneralMessageClassBuilderTest {
 
 
     @Test
-    public void evenPanShouldHaveCorrectLengthPrefix() throws Exception {
+    void evenPanShouldHaveCorrectLengthPrefix() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
@@ -85,7 +85,7 @@ public class GeneralMessageClassBuilderTest {
     }
 
     @Test
-    public void OddPanShouldHaveCorrectLengthPrefixAndPaddingChar() throws Exception {
+    void OddPanShouldHaveCorrectLengthPrefixAndPaddingChar() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)

@@ -1,12 +1,11 @@
 package com.imohsenb.ISO8583.entities;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.imohsenb.ISO8583.enums.FIELDS;
 import com.imohsenb.ISO8583.exceptions.ISOException;
 import com.imohsenb.ISO8583.security.ISOMacGenerator;
 import com.imohsenb.ISO8583.utils.FixedBitSet;
 import com.imohsenb.ISO8583.utils.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.TreeMap;
 @Slf4j
 public class ISOMessage {
 
-    private TreeMap<Integer, byte[]> dataElements = new TreeMap<>();
+    private final TreeMap<Integer, byte[]> dataElements = new TreeMap<>();
 
     private boolean isNil = true;
     private String message;
@@ -293,6 +292,7 @@ public class ISOMessage {
 
     /**
      * Get Message MTI
+     *
      * @return returns MTI in String format
      */
     public String getMti() {
@@ -301,6 +301,7 @@ public class ISOMessage {
 
     /**
      * Get message class
+     *
      * @return returns message class
      */
     public int getMsgClass() {
@@ -309,6 +310,7 @@ public class ISOMessage {
 
     /**
      * Get message function
+     *
      * @return returns message function
      */
     public int getMsgFunction() {
@@ -317,6 +319,7 @@ public class ISOMessage {
 
     /**
      * Get message origin
+     *
      * @return returns message origin
      */
     public int getMsgOrigin() {
@@ -347,6 +350,7 @@ public class ISOMessage {
 
     /**
      * Convert ISOMessage to String
+     *
      * @return ISOMessage in String format
      */
     public String toString() {
@@ -357,6 +361,7 @@ public class ISOMessage {
 
     /**
      * Convert all fields in String format
+     *
      * @return returns strings of fields
      */
     public String fieldsToString() {

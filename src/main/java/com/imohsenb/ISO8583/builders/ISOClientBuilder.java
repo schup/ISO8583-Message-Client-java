@@ -32,19 +32,22 @@ public class ISOClientBuilder {
      */
     public static class ClientBuilder {
 
-        private DefaultISOClient client;
+        private final DefaultISOClient client;
+
         /**
          * Create ISO Client after initializing
+         *
          * @param host socket Host
          * @param port socket ip
          */
         public ClientBuilder(String host, int port) {
             client = new DefaultISOClient();
-            client.setSocketAddress(host,port);
+            client.setSocketAddress(host, port);
         }
 
         /**
          * Sending with NIO (false) or Blocking IO (true)
+         *
          * @param blocking:true
          * @return {@link ClientBuilder}
          */
@@ -55,6 +58,7 @@ public class ISOClientBuilder {
 
         /**
          * Enable sending over SSL/TLS
+         *
          * @return {@link ClientBuilder}
          */
         public SSLProtocol enableSSL() {
@@ -63,6 +67,7 @@ public class ISOClientBuilder {
 
         /**
          * Build ISOClient for sending label
+         *
          * @return {@link ClientBuilder}
          */
         public ISOClient build() {
@@ -71,6 +76,7 @@ public class ISOClientBuilder {
 
         /**
          * set Timeout for read from socket
+         *
          * @param millisecond timeout in millisecond
          * @return {@link ClientBuilder}
          */
@@ -81,6 +87,7 @@ public class ISOClientBuilder {
 
         /**
          * Set Message length in Byte
+         *
          * @param bytes default: 2 byte
          * @return {@link ClientBuilder}
          */
@@ -91,11 +98,12 @@ public class ISOClientBuilder {
 
         /**
          * Set event listener for dispatch events
+         *
          * @param eventListener Implementation of {@link ISOClientEventListener}
          * @return {@link ClientBuilder}
          */
         public ClientBuilder setEventListener(ISOClientEventListener eventListener) {
-            if(eventListener != null)
+            if (eventListener != null)
                 client.setEventListener(eventListener);
             return this;
         }
@@ -104,7 +112,7 @@ public class ISOClientBuilder {
     private static class DefaultISOClient implements ISOClient {
 
         private SSLHandler sslHandler = null;
-        private SocketHandler socketHandler;
+        private final SocketHandler socketHandler;
         private ByteBuffer buffer;
         private boolean blocking = true;
         private volatile boolean connected = false;
@@ -116,11 +124,10 @@ public class ISOClientBuilder {
         private final Object lock = new Object();
         private ISOClientEventListener isoClientEventListener;
 
-        DefaultISOClient()
-        {
-            if(this.blocking) {
+        DefaultISOClient() {
+            if (this.blocking) {
                 socketHandler = new IOSocketHandler();
-            }else{
+            } else {
                 socketHandler = new NIOSocketHandler();
             }
 
@@ -130,9 +137,9 @@ public class ISOClientBuilder {
         public void connect() throws ISOClientException, IOException {
             isoClientEventListener.connecting();
 
-            if(sslHandler != null)
+            if (sslHandler != null)
                 socketHandler.init(host, port, isoClientEventListener, sslHandler);
-            else socketHandler.init(host,port, isoClientEventListener);
+            else socketHandler.init(host, port, isoClientEventListener);
 
             socketHandler.setReadTimeout(this.readTimeout);
             this.connected = true;
@@ -141,9 +148,9 @@ public class ISOClientBuilder {
         }
 
         public void disconnect() {
-            if(socketHandler!=null)
+            if (socketHandler != null)
                 socketHandler.close();
-            if(buffer!=null) {
+            if (buffer != null) {
                 buffer.flip();
                 buffer.put(ByteBuffer.allocate(buffer.limit()));
                 buffer = null;
@@ -159,10 +166,9 @@ public class ISOClientBuilder {
 
             buffer = ByteBuffer.allocate(len + length);
 
-            if(length > 0)
-            {
+            if (length > 0) {
                 byte[] mlen = ByteBuffer.allocate(4).putInt(len).array();
-                buffer.put(Arrays.copyOfRange(mlen, 2,4));
+                buffer.put(Arrays.copyOfRange(mlen, 2, 4));
             }
 
             buffer.put(isoMessage.getHeader())

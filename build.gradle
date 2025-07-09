@@ -25,12 +25,19 @@ dependencies {
     )
 
     testImplementation(
-            libs.junit,
-            libs.assertj.core,
+            platform(libs.junit.bom),
+            libs.junit.jupiter,
+            libs.assertj.core
+    )
+    testRuntimeOnly(
+            libs.junit.platform.launcher,
             libs.logback.classic
     )
 
+}
 
+test {
+    useJUnitPlatform()
 }
 
 tasks.register('javadocJar', Jar) {

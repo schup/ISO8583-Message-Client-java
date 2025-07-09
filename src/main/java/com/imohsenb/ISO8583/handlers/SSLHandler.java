@@ -1,11 +1,10 @@
 package com.imohsenb.ISO8583.handlers;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.imohsenb.ISO8583.builders.ISOClientBuilder;
 import com.imohsenb.ISO8583.interfaces.SSLKeyManagers;
 import com.imohsenb.ISO8583.interfaces.SSLProtocol;
 import com.imohsenb.ISO8583.interfaces.SSLTrustManagers;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.*;
 import java.nio.ByteBuffer;
@@ -18,8 +17,7 @@ import java.security.SecureRandom;
  * @author Mohsen Beiranvand
  */
 @Slf4j
-public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
-{
+public class SSLHandler implements SSLProtocol, SSLKeyManagers, SSLTrustManagers {
 
     private final ISOClientBuilder.ClientBuilder clientBuilder;
     private String protocol;
@@ -36,7 +34,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
         return this;
     }
 
-    public SSLTrustManagers setKeyManagers(KeyManager[] keyManagers){
+    public SSLTrustManagers setKeyManagers(KeyManager[] keyManagers) {
         this.keyManagers = keyManagers;
         return this;
     }
@@ -52,22 +50,24 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
         SSLContext context = SSLContext.getInstance(protocol);
 
         //init trust manager
-        if(trustManagers == null)
+        if (trustManagers == null)
             trustManagers = new TrustManager[]{
                     new X509TrustManager() {
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[] {};
+                            return new java.security.cert.X509Certificate[]{};
                         }
+
                         public void checkClientTrusted(
                                 java.security.cert.X509Certificate[] certs, String authType) {
                         }
+
                         public void checkServerTrusted(
                                 java.security.cert.X509Certificate[] certs, String authType) {
                         }
                     }
             };
 
-        context.init(keyManagers,trustManagers, SecureRandom.getInstance("SHA1PRNG"));
+        context.init(keyManagers, trustManagers, SecureRandom.getInstance("SHA1PRNG"));
 
         return context;
     }
@@ -152,7 +152,7 @@ public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
                         break;
                     }
                     switch (result.getStatus()) {
-                        case OK :
+                        case OK:
                             myNetData.flip();
                             while (myNetData.hasRemaining()) {
                                 socketChannel.write(myNetData);
