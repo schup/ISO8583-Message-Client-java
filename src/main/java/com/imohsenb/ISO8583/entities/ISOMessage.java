@@ -5,6 +5,7 @@ import com.imohsenb.ISO8583.exceptions.ISOException;
 import com.imohsenb.ISO8583.security.ISOMacGenerator;
 import com.imohsenb.ISO8583.utils.FixedBitSet;
 import com.imohsenb.ISO8583.utils.StringUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -22,42 +23,58 @@ public class ISOMessage {
 
     private final TreeMap<Integer, byte[]> dataElements = new TreeMap<>();
 
+    @Getter
     private boolean isNil = true;
     private String message;
+    /**
+     * -- GETTER --
+     * Get Message MTI
+     *
+     * @return returns MTI in String format
+     */
+    @Getter
     private String mti;
     private byte[] msg;
+    @Getter
     private byte[] header;
+    @Getter
     private byte[] body;
-    private byte[] primaryBitmap;
-    private int msgClass;
-    private int msgFunction;
-    private int msgOrigin;
-    private int len = 0;
-
-    public static ISOMessage NullObject() {
-        return new ISOMessage();
-    }
-
-    public boolean isNil() {
-        return isNil;
-    }
-
-    public byte[] getHeader() {
-        return header;
-    }
-
-    public byte[] getBody() {
-        return body;
-    }
-
     /**
+     * -- GETTER --
      * Get primary bitmap
      *
      * @return returns primary byte array
-     * @since 1.0.4-SNAPSHOT
      */
-    public byte[] getPrimaryBitmap() {
-        return primaryBitmap;
+    @Getter
+    private byte[] primaryBitmap;
+    /**
+     * -- GETTER --
+     * Get message class
+     *
+     * @return returns message class
+     */
+    @Getter
+    private int msgClass;
+    /**
+     * -- GETTER --
+     * Get message function
+     *
+     * @return returns message function
+     */
+    @Getter
+    private int msgFunction;
+    /**
+     * -- GETTER --
+     * Get message origin
+     *
+     * @return returns message origin
+     */
+    @Getter
+    private int msgOrigin;
+    private int length = 0;
+
+    public static ISOMessage NullObject() {
+        return new ISOMessage();
     }
 
     /**
@@ -66,7 +83,7 @@ public class ISOMessage {
      * @return returns message length
      */
     public int length() {
-        return len;
+        return length;
     }
 
     /**
@@ -77,8 +94,9 @@ public class ISOMessage {
      * @throws ISOException throws exception
      */
     public byte[] getField(int fieldNo) throws ISOException {
-        if (!dataElements.containsKey(fieldNo))
+        if (!dataElements.containsKey(fieldNo)) {
             throw new ISOException("Field No " + fieldNo + " does not exists");
+        }
         return dataElements.get(fieldNo);
     }
 
@@ -140,8 +158,9 @@ public class ISOMessage {
     public String getStringField(FIELDS field, boolean asciiFix) throws ISOException {
 
         String temp = StringUtil.fromByteArray(getField(field.getNo()));
-        if (asciiFix && !field.getType().equals("n"))
+        if (asciiFix && !field.getType().equals("n")) {
             return StringUtil.hexToAscii(temp);
+        }
         return temp;
     }
 
@@ -158,7 +177,7 @@ public class ISOMessage {
         isNil = false;
 
         msg = message;
-        len = msg.length / 2;
+        length = msg.length / 2;
 
         int headerOffset = 0;
 
@@ -215,8 +234,9 @@ public class ISOMessage {
                 int len = field.getLength();
                 switch (field.getType()) {
                     case "n":
-                        if (len % 2 != 0)
+                        if (len % 2 != 0) {
                             len++;
+                        }
                         len = len / 2;
                         addElement(field, Arrays.copyOfRange(body, offset, offset + len));
                         break;
@@ -291,42 +311,6 @@ public class ISOMessage {
     }
 
     /**
-     * Get Message MTI
-     *
-     * @return returns MTI in String format
-     */
-    public String getMti() {
-        return mti;
-    }
-
-    /**
-     * Get message class
-     *
-     * @return returns message class
-     */
-    public int getMsgClass() {
-        return msgClass;
-    }
-
-    /**
-     * Get message function
-     *
-     * @return returns message function
-     */
-    public int getMsgFunction() {
-        return msgFunction;
-    }
-
-    /**
-     * Get message origin
-     *
-     * @return returns message origin
-     */
-    public int getMsgOrigin() {
-        return msgOrigin;
-    }
-
-    /**
      * Validate mac
      * it's useful method to validate response MAC
      *
@@ -354,8 +338,9 @@ public class ISOMessage {
      * @return ISOMessage in String format
      */
     public String toString() {
-        if (message == null)
+        if (message == null) {
             message = StringUtil.fromByteArray(msg);
+        }
         return message;
     }
 

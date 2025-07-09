@@ -31,7 +31,8 @@ dependencies {
     )
     testRuntimeOnly(
             libs.junit.platform.launcher,
-            libs.logback.classic
+            libs.log4j,
+            libs.log4j.slf4j2.impl
     )
 
 }

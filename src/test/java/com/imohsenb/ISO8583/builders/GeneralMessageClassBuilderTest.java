@@ -1,13 +1,12 @@
 package com.imohsenb.ISO8583.builders;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.imohsenb.ISO8583.entities.ISOMessage;
 import com.imohsenb.ISO8583.enums.FIELDS;
 import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
 import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 import com.imohsenb.ISO8583.enums.VERSION;
 import com.imohsenb.ISO8583.exceptions.ISOException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +17,7 @@ class GeneralMessageClassBuilderTest {
 
     @Test
     void checkLeftPadding() throws Exception {
+        log.info("Hello");
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)

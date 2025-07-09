@@ -57,8 +57,9 @@ public class NIOSocketHandler implements SocketHandler {
 
             boolean connected = sslHandler.doHandshake(socketChannel, engine, myNetData, peerNetData, peerAppData, myAppData);
 
-            if (!connected)
+            if (!connected) {
                 throw new ISOClientException("Handshake not performed well");
+            }
 
             postInit();
 
@@ -114,8 +115,9 @@ public class NIOSocketHandler implements SocketHandler {
             while (myAppData.remaining() >= 0 && r == 0);
 
 
-            if (myAppData.position() > length)
+            if (myAppData.position() > length) {
                 return Arrays.copyOfRange(myAppData.array(), (length > 0) ? (length) : (0), myAppData.position());
+            }
 
             return new byte[0];
         }
@@ -215,8 +217,9 @@ public class NIOSocketHandler implements SocketHandler {
 
     public void close() {
         try {
-            if (socketChannel != null)
+            if (socketChannel != null) {
                 socketChannel.close();
+            }
             if (myAppData != null) {
                 myAppData.compact();
                 myAppData.clear();

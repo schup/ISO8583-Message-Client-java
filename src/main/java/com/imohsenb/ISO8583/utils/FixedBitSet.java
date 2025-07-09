@@ -31,14 +31,18 @@ public class FixedBitSet extends BitSet {
         for (int i = 0; i < value.length(); i = i + 1) {
             String item = value.substring(i, i + 1);
             byte bitem = (byte) Integer.parseInt(item, 16);
-            if ((bitem & 0b1000) > 0)
+            if ((bitem & 0b1000) > 0) {
                 set(offset);
-            if ((bitem & 0b0100) > 0)
+            }
+            if ((bitem & 0b0100) > 0) {
                 set(offset + 1);
-            if ((bitem & 0b0010) > 0)
+            }
+            if ((bitem & 0b0010) > 0) {
                 set(offset + 2);
-            if ((bitem & 0b0001) > 0)
+            }
+            if ((bitem & 0b0001) > 0) {
                 set(offset + 3);
+            }
             offset += 4;
         }
         return this;
@@ -62,8 +66,9 @@ public class FixedBitSet extends BitSet {
         int size = size();
         while (indx < size) {
             indx = nextSetBit(indx + 1);
-            if (indx == -1)
+            if (indx == -1) {
                 break;
+            }
             list.add(indx + 1);
         }
         return list;

@@ -50,7 +50,7 @@ public class SSLHandler implements SSLProtocol, SSLKeyManagers, SSLTrustManagers
         SSLContext context = SSLContext.getInstance(protocol);
 
         //init trust manager
-        if (trustManagers == null)
+        if (trustManagers == null) {
             trustManagers = new TrustManager[]{
                     new X509TrustManager() {
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -66,6 +66,7 @@ public class SSLHandler implements SSLProtocol, SSLKeyManagers, SSLTrustManagers
                         }
                     }
             };
+        }
 
         context.init(keyManagers, trustManagers, SecureRandom.getInstance("SHA1PRNG"));
 

@@ -1,19 +1,18 @@
 [versions]
 junit = "5.13.3"
 assertj-core = "3.13.2"
-lombok = "1.18.30"
 slf4j-api = "2.0.13"
-logback-classic = "1.5.6"
+log4j = "2.25.0"
 lombok-plugin = "8.13.1"
 
 [libraries]
-junit-bom = { module = "org.junit:junit-bom", version.ref="junit"}
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" , version.ref = "junit"}
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
-#lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
+log4j = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-slf4j2-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 
 [plugins]
-lombok = { id = "io.freefair.lombok", version.ref="lombok-plugin"}
+lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }

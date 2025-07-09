@@ -103,8 +103,9 @@ public class ISOClientBuilder {
          * @return {@link ClientBuilder}
          */
         public ClientBuilder setEventListener(ISOClientEventListener eventListener) {
-            if (eventListener != null)
+            if (eventListener != null) {
                 client.setEventListener(eventListener);
+            }
             return this;
         }
     }
@@ -137,9 +138,11 @@ public class ISOClientBuilder {
         public void connect() throws ISOClientException, IOException {
             isoClientEventListener.connecting();
 
-            if (sslHandler != null)
+            if (sslHandler != null) {
                 socketHandler.init(host, port, isoClientEventListener, sslHandler);
-            else socketHandler.init(host, port, isoClientEventListener);
+            } else {
+                socketHandler.init(host, port, isoClientEventListener);
+            }
 
             socketHandler.setReadTimeout(this.readTimeout);
             this.connected = true;
@@ -148,8 +151,9 @@ public class ISOClientBuilder {
         }
 
         public void disconnect() {
-            if (socketHandler != null)
+            if (socketHandler != null) {
                 socketHandler.close();
+            }
             if (buffer != null) {
                 buffer.flip();
                 buffer.put(ByteBuffer.allocate(buffer.limit()));
@@ -182,8 +186,9 @@ public class ISOClientBuilder {
             byte[] result = new byte[0];
 
             synchronized (lock) {
-                if (!isConnected())
+                if (!isConnected()) {
                     throw new ISOClientException("Client does not connected to a server!");
+                }
 
                 ByteBuffer buffer = initBuffer(isoMessage);
 

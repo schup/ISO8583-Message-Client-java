@@ -93,8 +93,9 @@ public final class StringUtil {
 
     public static String intToHexString(int value) {
         String hs = Integer.toHexString(value);
-        if (hs.length() % 2 != 0)
+        if (hs.length() % 2 != 0) {
             hs = "0" + hs;
+        }
         hs = hs.toUpperCase();
         return hs;
     }

@@ -1,8 +1,13 @@
 package com.imohsenb.ISO8583.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author Mohsen Beiranvand
  */
+@Getter
+@RequiredArgsConstructor
 public enum VERSION {
 
     V1987("0"),
@@ -11,11 +16,4 @@ public enum VERSION {
 
     private final String code;
 
-    VERSION(String versionCode) {
-        this.code = versionCode;
-    }
-
-    public String getCode() {
-        return code;
-    }
 }

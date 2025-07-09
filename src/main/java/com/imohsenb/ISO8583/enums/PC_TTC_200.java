@@ -1,8 +1,13 @@
 package com.imohsenb.ISO8583.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author Mohsen Beiranvand
  */
+@Getter
+@RequiredArgsConstructor
 public enum PC_TTC_200 {
 
     Purchase("00"),
@@ -16,11 +21,4 @@ public enum PC_TTC_200 {
 
     private final String code;
 
-    PC_TTC_200(String code) {
-        this.code = code;
-    }
-
-    public String getCode() {
-        return code;
-    }
 }

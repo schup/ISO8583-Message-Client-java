@@ -18,8 +18,9 @@ public final class TLVParser {
             String tag = new String(Arrays.copyOfRange(message, offset, offset + tagLength));
             int len = Integer.parseInt(new String(Arrays.copyOfRange(message, offset + tagLength, offset + tagLength + lengthOfDataLen)));
 
-            if (message.length >= offset + tagLength + lengthOfDataLen + len)
+            if (message.length >= offset + tagLength + lengthOfDataLen + len) {
                 parts.put(tag, Arrays.copyOfRange(message, offset + tagLength + lengthOfDataLen, offset + tagLength + lengthOfDataLen + len));
+            }
             offset += len + tagLength + lengthOfDataLen;
         }
 

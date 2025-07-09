@@ -124,12 +124,15 @@ public class IOSocketHandler implements SocketHandler {
 
     public synchronized void close() {
         try {
-            if (socketWriter != null)
+            if (socketWriter != null) {
                 socketWriter.close();
-            if (socketReader != null)
+            }
+            if (socketReader != null) {
                 socketReader.close();
-            if (socket != null)
+            }
+            if (socket != null) {
                 socket.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,8 +145,9 @@ public class IOSocketHandler implements SocketHandler {
 
     @Override
     public boolean isConnected() {
-        if (socket != null)
+        if (socket != null) {
             return socket.isConnected();
+        }
         return false;
     }
 

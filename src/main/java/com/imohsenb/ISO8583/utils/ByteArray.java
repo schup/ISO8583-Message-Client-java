@@ -23,8 +23,9 @@ public final class ByteArray {
     }
 
     public ByteArray append(byte[] value) {
-        if (value.length + position > size)
+        if (value.length + position > size) {
             expandBuffer();
+        }
 
         System.arraycopy(
                 value,

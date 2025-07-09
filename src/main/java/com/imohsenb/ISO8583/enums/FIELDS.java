@@ -1,11 +1,16 @@
 package com.imohsenb.ISO8583.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Mohsen Beiranvand
  */
+@Getter
+@RequiredArgsConstructor
 public enum FIELDS {
     // |Field title                        |no  |type  |len  |fixed |format|
     F1_Bitmap(1, "b", 64, true, null),
@@ -80,40 +85,13 @@ public enum FIELDS {
     private final boolean fixed;
     private final String format;
 
-    FIELDS(int no, String type, int length, boolean fixed, String format) {
-        this.no = no;
-        this.type = type;
-        this.length = length;
-        this.fixed = fixed;
-        this.format = format;
-    }
-
+    
     private static final Map<Integer, FIELDS> map = new HashMap<Integer, FIELDS>();
 
     static {
         for (FIELDS field : FIELDS.values()) {
             map.put(field.getNo(), field);
         }
-    }
-
-    public int getNo() {
-        return no;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public boolean isFixed() {
-        return fixed;
-    }
-
-    public String getFormat() {
-        return format;
     }
 
     public static FIELDS valueOf(int no) {

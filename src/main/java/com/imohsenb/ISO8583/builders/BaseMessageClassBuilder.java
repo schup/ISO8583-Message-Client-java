@@ -18,8 +18,7 @@ import java.util.TreeMap;
 /**
  * @author Mohsen Beiranvand
  */
-public abstract class BaseMessageClassBuilder<T> implements
-        DataElement<T>, ProcessCode<T>, MessagePacker<T> {
+public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, ProcessCode<T>, MessagePacker<T> {
 
     private final String version;
     private String messageClass = "0";
@@ -58,18 +57,21 @@ public abstract class BaseMessageClassBuilder<T> implements
         ByteArray dataBuffer = new ByteArray();
 
         for (Map.Entry<Integer, byte[]> elem : dataElements.entrySet()) {
-            if (generateBitmap)
+            if (generateBitmap) {
                 primaryBitmap.flip(elem.getKey() - 1);
+            }
             dataBuffer.append(elem.getValue());
         }
 
-        if (generateBitmap)
+        if (generateBitmap) {
             dataBuffer.prepend(StringUtil.hexStringToByteArray(primaryBitmap.toHexString()));
+        }
 
         dataBuffer.prepend(StringUtil.hexStringToByteArray((version + messageClass + messageFunction + messageOrigin)));
 
-        if (header != null && generateBitmap)
+        if (header != null && generateBitmap) {
             dataBuffer.prepend(StringUtil.hexStringToByteArray(header));
+        }
 
         return dataBuffer.array();
     }
@@ -94,8 +96,9 @@ public abstract class BaseMessageClassBuilder<T> implements
 
         byte[] fValue = value;
 
-        if (value == null)
+        if (value == null) {
             throw new ISOException(field.name() + " is Null");
+        }
         //length check and padding
         if (field.isFixed()) {
             if (field.getLength() % 2 != 0) {
@@ -119,15 +122,11 @@ public abstract class BaseMessageClassBuilder<T> implements
         } else {
 
             int dLen = fValue.length;
-            switch (field.getType()) {
-                case "z":
-                    if (dLen > field.getLength())
-                        fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
-
-
-                    dLen = fValue.length * 2;
-
-                    break;
+            if (field.getType().equals("z")) {
+                if (dLen > field.getLength()) {
+                    fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
+                }
+                dLen = fValue.length * 2;
             }
 
             ByteArray valueBuffer = new ByteArray();
@@ -135,10 +134,11 @@ public abstract class BaseMessageClassBuilder<T> implements
 
             switch (field.getFormat()) {
                 case "LL":
-                    if (2 - String.valueOf(valueLength).length() <= 0)
+                    if (2 - String.valueOf(valueLength).length() <= 0) {
                         valueBuffer.prepend(StringUtil.hexStringToByteArray(valueLength + ""));
-                    else
+                    } else {
                         valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(valueLength).length()) + "d%s", 0, valueLength)));
+                    }
                     break;
                 case "LLL":
                     valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%0" + (4 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
@@ -175,8 +175,9 @@ public abstract class BaseMessageClassBuilder<T> implements
     private void rightPad(byte[] value, byte[] fValue, byte[] fixed) {
         for (int i = 0; i < fValue.length; i++) {
             fixed[i] = (byte) ((fValue[i] & 0x0F) << 4);
-            if (i + 1 < value.length)
+            if (i + 1 < value.length) {
                 fixed[i] += (fValue[i + 1] & 0xF0) >> 4;
+            }
         }
         fixed[fValue.length - 1] = (byte) (fixed[fValue.length - 1] + paddingByte);
     }
@@ -204,10 +205,11 @@ public abstract class BaseMessageClassBuilder<T> implements
 
         if (generator != null) {
             byte[] mac = generator.generate(buildBuffer(true));
-            if (mac != null)
+            if (mac != null) {
                 setField(FIELDS.F64_MAC, mac);
-            else
+            } else {
                 throw new ISOException("MAC is null");
+            }
         }
 
         return this;
