@@ -6,3 +6,4 @@
 settings.xmlbuild/
 .idea/
 .gradle/
+build/

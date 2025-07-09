@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+    alias(libs.plugins.lombok)
 }
 
 group = 'com.imohsenb'
@@ -18,20 +19,26 @@ repositories {
 }
 
 dependencies {
-    testImplementation libs.junit
-    testImplementation libs.assertj.core
-    compileOnly libs.lombok
-    annotationProcessor libs.lombok
-    implementation libs.slf4j.api
-    implementation libs.logback.classic
+
+    implementation(
+            libs.slf4j.api
+    )
+
+    testImplementation(
+            libs.junit,
+            libs.assertj.core,
+            libs.logback.classic
+    )
+
+
 }
 
-task javadocJar(type: Jar) {
+tasks.register('javadocJar', Jar) {
     from javadoc
     archiveClassifier = 'javadoc'
 }
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
     archiveClassifier = 'sources'
 }
