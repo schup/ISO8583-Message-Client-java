@@ -29,7 +29,8 @@ dependencies {
     testImplementation(
             platform(libs.junit.bom),
             libs.junit.jupiter,
-            libs.assertj.core
+            libs.assertj.core,
+            libs.mockito.core
     )
     testRuntimeOnly(
             libs.junit.platform.launcher,

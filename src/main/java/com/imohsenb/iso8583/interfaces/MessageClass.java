@@ -11,49 +11,49 @@ public interface MessageClass {
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> authorization();
+    GeneralMessageClassBuilder authorization();
 
     /**
      * Determine if funds are available, get an approval and post directly to the account.
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> financial();
+    GeneralMessageClassBuilder financial();
 
     /**
      * Used for hot-card, TMS and other exchanges
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> fileAction();
+    GeneralMessageClassBuilder fileAction();
 
     /**
      * Reverses the action of a previous authorization.
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> reversal();
+    GeneralMessageClassBuilder reversal();
 
     /**
      * Transmits settlement information label.
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> reconciliation();
+    GeneralMessageClassBuilder reconciliation();
 
     /**
      * Transmits administrative advice.
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> administrative();
+    GeneralMessageClassBuilder administrative();
 
-    MessagePacker<GeneralMessageClassBuilder> feeCollection();
+    GeneralMessageClassBuilder feeCollection();
 
     /**
      * Used for secure key exchange, logon, echo test and other network functions
      *
      * @return
      */
-    MessagePacker<GeneralMessageClassBuilder> networkManagement();
+    GeneralMessageClassBuilder networkManagement();
 }

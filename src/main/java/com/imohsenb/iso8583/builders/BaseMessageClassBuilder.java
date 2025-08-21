@@ -41,7 +41,7 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
         ISOMessage finalMessage = new ISOMessage();
         finalMessage.setMessage(buildBuffer(true), this.header != null);
 
-        //clear();
+        clear();
 
         return finalMessage;
     }

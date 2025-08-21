@@ -34,17 +34,14 @@ public class ISOMessageBuilder {
      * Inner builder class for creating ISO 8583 messages based on their message class.
      * Implements the {@link MessageClass} interface.
      */
-    private static class Builder implements MessageClass {
-
-        private final String version;
+    private record Builder(String version) implements MessageClass {
 
         /**
          * Constructs a new Builder instance with the specified ISO 8583 version.
          *
          * @param version The ISO 8583 version string.
          */
-        public Builder(String version) {
-            this.version = version;
+        private Builder {
         }
 
 
@@ -54,7 +51,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building an Authorization message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> authorization() {
+        public GeneralMessageClassBuilder authorization() {
             return new GeneralMessageClassBuilder(version, "1");
         }
 
@@ -64,7 +61,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a Financial message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> financial() {
+        public GeneralMessageClassBuilder financial() {
             return new GeneralMessageClassBuilder(version, "2");
         }
 
@@ -74,7 +71,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a File Action message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> fileAction() {
+        public GeneralMessageClassBuilder fileAction() {
             return new GeneralMessageClassBuilder(version, "3");
         }
 
@@ -84,7 +81,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a Reversal message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> reversal() {
+        public GeneralMessageClassBuilder reversal() {
             return new GeneralMessageClassBuilder(version, "4");
         }
 
@@ -94,7 +91,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a Reconciliation message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> reconciliation() {
+        public GeneralMessageClassBuilder reconciliation() {
             return new GeneralMessageClassBuilder(version, "5");
         }
 
@@ -104,7 +101,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building an Administrative message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> administrative() {
+        public GeneralMessageClassBuilder administrative() {
             return new GeneralMessageClassBuilder(version, "6");
         }
 
@@ -114,7 +111,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a Fee Collection message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> feeCollection() {
+        public GeneralMessageClassBuilder feeCollection() {
             return new GeneralMessageClassBuilder(version, "7");
         }
 
@@ -124,7 +121,7 @@ public class ISOMessageBuilder {
          * @return A {@link MessagePacker} for building a Network Management message.
          */
         @Override
-        public MessagePacker<GeneralMessageClassBuilder> networkManagement() {
+        public GeneralMessageClassBuilder networkManagement() {
             return new GeneralMessageClassBuilder(version, "8");
         }
 
@@ -136,7 +133,7 @@ public class ISOMessageBuilder {
      *
      * @return An {@link UnpackMessage} instance to continue parsing the message.
      */
-    public static UnpackMessage Unpacker() {
+    public static UnpackMessage unpacker() {
         return new UnpackBuilder();
     }
 
