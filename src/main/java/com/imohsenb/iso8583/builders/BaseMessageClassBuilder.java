@@ -1,13 +1,7 @@
 package com.imohsenb.iso8583.builders;
 
 import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.enums.FIELDS;
-import com.imohsenb.iso8583.enums.FieldType;
-import com.imohsenb.iso8583.enums.MESSAGE_FUNCTION;
-import com.imohsenb.iso8583.enums.MESSAGE_ORIGIN;
-import com.imohsenb.iso8583.enums.PC_ATC;
-import com.imohsenb.iso8583.enums.PC_TTC_100;
-import com.imohsenb.iso8583.enums.PC_TTC_200;
+import com.imohsenb.iso8583.enums.*;
 import com.imohsenb.iso8583.exceptions.ISOException;
 import com.imohsenb.iso8583.interfaces.DataElement;
 import com.imohsenb.iso8583.interfaces.MessagePacker;
@@ -94,8 +88,16 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
         return this;
     }
 
+
+    /**
+     * Sets the value of a data element field using a byte array.
+     * The length of the value is inferred from the byte array's length.
+     *
+     * @param field the field to set, must not be null
+     * @param value the value for the field, must not be null
+     */
     @Override
-    public DataElement<T> setField(FIELDS field, byte[] value) throws ISOException {
+    public DataElement<T> setField(@NonNull FIELDS field, byte[] value) throws ISOException {
         return setField(field, value, value.length);
     }
 
@@ -118,9 +120,9 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
         return this;
     }
 
-    private static byte[] getVariableValue(FIELDS field, int valueLength, byte[] fValue) {
+    private static byte[] getVariableValue(@NonNull FIELDS field, int valueLength, @NonNull byte[] fValue) {
         int dLen = fValue.length;
-        if (field.getType().equals("z")) {
+        if (field.getType() == FieldType.Z) {
             if (dLen > field.getLength()) {
                 fValue = Arrays.copyOfRange(fValue, fValue.length - field.getLength(), fValue.length);
             }
