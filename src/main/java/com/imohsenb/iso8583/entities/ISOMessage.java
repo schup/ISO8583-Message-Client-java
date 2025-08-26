@@ -57,16 +57,6 @@ public class ISOMessage {
     private int length = 0;
 
     /**
-     * Creates and returns a new, empty ISOMessage instance.
-     * This can be used as a null object pattern implementation.
-     *
-     * @return A new ISOMessage instance.
-     */
-    public static ISOMessage NullObject() {
-        return new ISOMessage();
-    }
-
-    /**
      * Returns the total length of the ISO 8583 message in bytes.
      *
      * @return The length of the message.
@@ -232,36 +222,26 @@ public class ISOMessage {
 
             if (field.isFixed()) {
                 int len = field.getLength();
-                switch (field.getType()) {
-                    case N:
-                        if (len % 2 != 0) {
-                            len++;
-                        }
-                        len = len / 2;
-                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
-                        break;
-                    default:
-                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
-                        break;
+                if (field.getType() == FieldType.N) {
+                    if (len % 2 != 0) {
+                        len++;
+                    }
+                    len = len / 2;
+                    addElement(field, Arrays.copyOfRange(body, offset, offset + len));
+                } else {
+                    addElement(field, Arrays.copyOfRange(body, offset, offset + len));
                 }
                 offset += len;
             } else {
+                int formatLength = switch (field.getFormat()) {
+                    case "LLL" -> 2;
+                    default -> 1;
+                };
 
-                int formatLength = 1;
-                switch (field.getFormat()) {
-                    case "LL":
-                        formatLength = 1;
-                        break;
-                    case "LLL":
-                        formatLength = 2;
-                        break;
-                }
+                int flen = Integer.parseInt(StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
 
-                int flen = Integer.valueOf(StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
-
-                switch (field.getType()) {
-                    case Z, N:
-                        flen /= 2;
+                if (field.getType() == FieldType.Z || field.getType() == FieldType.N) {
+                    flen /= 2;
                 }
 
                 offset = offset + formatLength;

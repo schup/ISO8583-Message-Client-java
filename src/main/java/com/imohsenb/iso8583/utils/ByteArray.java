@@ -72,7 +72,6 @@ public final class ByteArray {
         System.arraycopy(data, 0, dest, 0, size);
         data = dest;
         size = newSize;
-        dest = null;
 
     }
 

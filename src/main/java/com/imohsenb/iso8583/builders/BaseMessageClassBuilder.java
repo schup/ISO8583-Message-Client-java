@@ -39,7 +39,7 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
     public ISOMessage build() throws ISOException {
 
         ISOMessage finalMessage = new ISOMessage();
-        finalMessage.setMessage(buildBuffer(true), this.header != null);
+        finalMessage.setMessage(buildBuffer(true), header != null);
 
         clear();
 
@@ -149,7 +149,6 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
 
         fValue = valueBuffer.array();
         valueBuffer.clear();
-        valueBuffer = null;
         return fValue;
     }
 
@@ -165,7 +164,6 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
             valueBuffer.prepend(new String(new char[(field.getLength() - (fValue.length * 2)) / 2]).getBytes());
             fValue = valueBuffer.array();
             valueBuffer.clear();
-            valueBuffer = null;
         }
 
         if (fValue.length > field.getLength()) {
@@ -175,7 +173,7 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
     }
 
     private byte[] padding(FIELDS field, byte[] value, byte[] fValue) {
-        byte[] fixed = new byte[(int) Math.ceil(field.getLength() / 2) * 2];
+        byte[] fixed = new byte[(int) (field.getLength() / 2d) * 2];
 
         if (leftPadding) {
             leftPad(value, fValue, fixed);
@@ -207,13 +205,11 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
     }
 
     public DataElement<T> setField(FIELDS field, String value) throws ISOException {
-        switch (field.getType()) {
-            case N:
-                setField(field, StringUtil.hexStringToByteArray(value), value.length());
-                break;
-            default:
-                byte[] bytes = value.getBytes();
-                setField(field, bytes, bytes.length);
+        if (field.getType() == FieldType.N) {
+            setField(field, StringUtil.hexStringToByteArray(value), value.length());
+        } else {
+            byte[] bytes = value.getBytes();
+            setField(field, bytes, bytes.length);
         }
 
         return this;
@@ -235,53 +231,53 @@ public abstract class BaseMessageClassBuilder<T> implements DataElement<T>, Proc
     }
 
     public ProcessCode<T> mti(MESSAGE_FUNCTION mFunction, MESSAGE_ORIGIN mOrigin) {
-        this.messageFunction = mFunction.getCode();
-        this.messageOrigin = mOrigin.getCode();
+        messageFunction = mFunction.getCode();
+        messageOrigin = mOrigin.getCode();
         return this;
     }
 
     @Override
     public MessagePacker<T> setLeftPadding(byte character) {
-        this.leftPadding = true;
-        this.paddingByte = character;
+        leftPadding = true;
+        paddingByte = character;
         return this;
     }
 
     @Override
     public MessagePacker<T> setRightPadding(byte character) {
-        this.leftPadding = false;
-        this.paddingByte = character;
+        leftPadding = false;
+        paddingByte = character;
         return this;
     }
 
     //
     public DataElement<T> processCode(String code) throws ISOException {
-        this.processCode = code;
-        this.setField(FIELDS.F3_ProcessCode, this.processCode);
+        processCode = code;
+        setField(FIELDS.F3_ProcessCode, processCode);
         return this;
     }
 
     public DataElement<T> processCode(PC_TTC_100 ttc) throws ISOException {
-        this.processCode = ttc.getCode() + PC_ATC.Default.getCode() + PC_ATC.Default.getCode();
-        this.setField(FIELDS.F3_ProcessCode, this.processCode);
+        processCode = ttc.getCode() + PC_ATC.Default.getCode() + PC_ATC.Default.getCode();
+        setField(FIELDS.F3_ProcessCode, processCode);
         return this;
     }
 
     public DataElement<T> processCode(PC_TTC_100 ttc, PC_ATC atcFrom, PC_ATC atcTo) throws ISOException {
-        this.processCode = ttc.getCode() + atcFrom.getCode() + atcTo.getCode();
-        this.setField(FIELDS.F3_ProcessCode, this.processCode);
+        processCode = ttc.getCode() + atcFrom.getCode() + atcTo.getCode();
+        setField(FIELDS.F3_ProcessCode, processCode);
         return this;
     }
 
     public DataElement<T> processCode(PC_TTC_200 ttc) throws ISOException {
-        this.processCode = ttc.getCode() + PC_ATC.Default.getCode() + PC_ATC.Default.getCode();
-        this.setField(FIELDS.F3_ProcessCode, this.processCode);
+        processCode = ttc.getCode() + PC_ATC.Default.getCode() + PC_ATC.Default.getCode();
+        setField(FIELDS.F3_ProcessCode, processCode);
         return this;
     }
 
     public DataElement<T> processCode(PC_TTC_200 ttc, PC_ATC atcFrom, PC_ATC atcTo) throws ISOException {
-        this.processCode = ttc.getCode() + atcFrom.getCode() + atcTo.getCode();
-        this.setField(FIELDS.F3_ProcessCode, this.processCode);
+        processCode = ttc.getCode() + atcFrom.getCode() + atcTo.getCode();
+        setField(FIELDS.F3_ProcessCode, processCode);
         return this;
     }
 
