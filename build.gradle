@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
     id 'signing'
     alias(libs.plugins.lombok)
+    id 'jacoco'
+    alias(libs.plugins.sonarqube)
 }
 
 group = 'com.imohsenb'
@@ -27,18 +29,41 @@ dependencies {
     testImplementation(
             platform(libs.junit.bom),
             libs.junit.jupiter,
-            libs.assertj.core
+            libs.assertj.core,
+            libs.mockito.core
     )
     testRuntimeOnly(
             libs.junit.platform.launcher,
             libs.log4j,
-            libs.log4j.slf4j2.impl
+            libs.log4j.slf4j2.impl,
+            libs.log4j.api
     )
 
 }
 
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
+}
+
+
+tasks.test {
+    finalizedBy jacocoTestReport
+}
+
+tasks.jacocoTestReport {
+    dependsOn tasks.test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.coverage.jacoco.xmlReportPaths", project.layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get()
+    }
 }
 
 tasks.register('javadocJar', Jar) {

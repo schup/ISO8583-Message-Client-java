@@ -1,9 +1,11 @@
 [versions]
 junit = "5.13.3"
-assertj-core = "3.13.2"
+assertj-core = "3.23.0"
 slf4j-api = "2.0.13"
 log4j = "2.25.0"
 lombok-plugin = "8.13.1"
+sonarqube-plugin = "6.2.0.5505"
+mockito-core = "5.19.0"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
@@ -13,6 +15,9 @@ assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-cor
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
 log4j = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 log4j-slf4j2-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 
 [plugins]
 lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-plugin" }
