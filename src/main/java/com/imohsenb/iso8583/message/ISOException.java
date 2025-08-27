@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.exceptions;
+package com.imohsenb.iso8583.message;
 
 /**
  * @author Mohsen Beiranvand

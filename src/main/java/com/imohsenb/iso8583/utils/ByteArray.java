@@ -17,9 +17,9 @@ public final class ByteArray {
     }
 
     private void init() {
-        this.size = FRAME_SIZE;
-        this.data = new byte[size];
-        this.position = 0;
+        size = FRAME_SIZE;
+        data = new byte[size];
+        position = 0;
     }
 
     public ByteArray append(byte[] value) {
@@ -105,7 +105,6 @@ public final class ByteArray {
     }
 
     public ByteArray replace(byte[] value) {
-
         init();
         append(value);
         return this;

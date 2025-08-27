@@ -1,7 +1,7 @@
 package com.imohsenb.iso8583.interfaces;
 
-import com.imohsenb.iso8583.enums.MESSAGE_FUNCTION;
-import com.imohsenb.iso8583.enums.MESSAGE_ORIGIN;
+import com.imohsenb.iso8583.message.enums.MESSAGE_FUNCTION;
+import com.imohsenb.iso8583.message.enums.MESSAGE_ORIGIN;
 
 /**
  * @author Mohsen Beiranvand

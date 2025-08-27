@@ -1,9 +1,5 @@
-package com.imohsenb.iso8583.handlers;
+package com.imohsenb.iso8583.client;
 
-import com.imohsenb.iso8583.builders.ISOClientBuilder;
-import com.imohsenb.iso8583.interfaces.SSLKeyManagers;
-import com.imohsenb.iso8583.interfaces.SSLProtocol;
-import com.imohsenb.iso8583.interfaces.SSLTrustManagers;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.*;

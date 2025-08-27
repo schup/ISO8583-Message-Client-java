@@ -1,6 +1,4 @@
-package com.imohsenb.iso8583.interfaces;
-
-import com.imohsenb.iso8583.builders.ISOClientBuilder;
+package com.imohsenb.iso8583.client;
 
 import javax.net.ssl.TrustManager;
 

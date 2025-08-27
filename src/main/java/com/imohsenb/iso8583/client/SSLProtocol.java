@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.interfaces;
+package com.imohsenb.iso8583.client;
 
 /**
  * @author Mohsen Beiranvand

@@ -1,14 +1,6 @@
-package com.imohsenb.iso8583.builders;
+package com.imohsenb.iso8583.client;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.exceptions.ISOClientException;
-import com.imohsenb.iso8583.handlers.IOSocketHandler;
-import com.imohsenb.iso8583.handlers.NIOSocketHandler;
-import com.imohsenb.iso8583.handlers.SSLHandler;
-import com.imohsenb.iso8583.interfaces.ISOClient;
-import com.imohsenb.iso8583.interfaces.ISOClientEventListener;
-import com.imohsenb.iso8583.interfaces.SSLProtocol;
-import com.imohsenb.iso8583.interfaces.SocketHandler;
+import com.imohsenb.iso8583.message.ISOMessage;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -126,7 +118,7 @@ public class ISOClientBuilder {
         private ISOClientEventListener isoClientEventListener;
 
         DefaultISOClient() {
-            if (this.blocking) {
+            if (blocking) {
                 socketHandler = new IOSocketHandler();
             } else {
                 socketHandler = new NIOSocketHandler();
@@ -144,8 +136,8 @@ public class ISOClientBuilder {
                 socketHandler.init(host, port, isoClientEventListener);
             }
 
-            socketHandler.setReadTimeout(this.readTimeout);
-            this.connected = true;
+            socketHandler.setReadTimeout(readTimeout);
+            connected = true;
 
             isoClientEventListener.connected();
         }

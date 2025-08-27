@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.enums;
+package com.imohsenb.iso8583.message.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +8,12 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum MESSAGE_FUNCTION {
+public enum Version {
 
-    Request("0"),
-    Advice("2");
+    V1987("0"),
+    V1993("1"),
+    V2003("2");
 
     private final String code;
-
 
 }

@@ -1,9 +1,9 @@
 package com.imohsenb.iso8583.interfaces;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.enums.FIELDS;
-import com.imohsenb.iso8583.exceptions.ISOException;
-import com.imohsenb.iso8583.security.ISOMacGenerator;
+import com.imohsenb.iso8583.message.ISOException;
+import com.imohsenb.iso8583.message.ISOMacGenerator;
+import com.imohsenb.iso8583.message.ISOMessage;
+import com.imohsenb.iso8583.message.enums.FIELDS;
 
 /**
  * Defines the contract for classes that can manipulate data elements within an ISO 8583 message.

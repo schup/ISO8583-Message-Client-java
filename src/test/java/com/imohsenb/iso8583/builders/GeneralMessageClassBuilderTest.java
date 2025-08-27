@@ -1,16 +1,12 @@
 package com.imohsenb.iso8583.builders;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.enums.*;
-import com.imohsenb.iso8583.exceptions.ISOException;
-import com.imohsenb.iso8583.security.ISOMacGenerator;
+import com.imohsenb.iso8583.message.*;
+import com.imohsenb.iso8583.message.enums.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 @Slf4j
@@ -136,8 +132,13 @@ class GeneralMessageClassBuilderTest {
 
     @Test
     void testGenerateMacWithNullMac() {
-        ISOMacGenerator macGenerator = mock(ISOMacGenerator.class);
-        when(macGenerator.generate(new byte[0])).thenReturn(null);
+        ISOMacGenerator macGenerator = new ISOMacGenerator() {
+
+            @Override
+            public byte[] generate(byte[] data) {
+                return null;
+            }
+        };
 
         assertThrows(ISOException.class, () -> ISOMessageBuilder.packer(Version.V1987)
                 .networkManagement()

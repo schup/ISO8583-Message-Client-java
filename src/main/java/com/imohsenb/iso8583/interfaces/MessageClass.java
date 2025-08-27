@@ -1,6 +1,6 @@
 package com.imohsenb.iso8583.interfaces;
 
-import com.imohsenb.iso8583.builders.GeneralMessageClassBuilder;
+import com.imohsenb.iso8583.message.GeneralMessageClassBuilder;
 
 /**
  * @author Mohsen Beiranvand

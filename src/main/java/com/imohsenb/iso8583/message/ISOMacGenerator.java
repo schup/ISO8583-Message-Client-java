@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.security;
+package com.imohsenb.iso8583.message;
 
 /**
  * ISOMacGenerator

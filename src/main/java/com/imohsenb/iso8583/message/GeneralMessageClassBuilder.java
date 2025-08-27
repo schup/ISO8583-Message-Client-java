@@ -1,6 +1,6 @@
-package com.imohsenb.iso8583.builders;
+package com.imohsenb.iso8583.message;
 
-import com.imohsenb.iso8583.enums.Version;
+import com.imohsenb.iso8583.message.enums.Version;
 
 /**
  * Created by Mohsen Beiranvand on 18/04/01.

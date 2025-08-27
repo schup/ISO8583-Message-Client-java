@@ -1,12 +1,10 @@
-package com.imohsenb.iso8583.builders;
+package com.imohsenb.iso8583.message;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.enums.Version;
-import com.imohsenb.iso8583.exceptions.ISOException;
 import com.imohsenb.iso8583.interfaces.MessageClass;
 import com.imohsenb.iso8583.interfaces.MessagePacker;
 import com.imohsenb.iso8583.interfaces.UnpackMessage;
 import com.imohsenb.iso8583.interfaces.UnpackMethods;
+import com.imohsenb.iso8583.message.enums.Version;
 import com.imohsenb.iso8583.utils.StringUtil;
 import lombok.experimental.UtilityClass;
 

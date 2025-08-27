@@ -1,8 +1,5 @@
-package com.imohsenb.iso8583.handlers;
+package com.imohsenb.iso8583.client;
 
-import com.imohsenb.iso8583.exceptions.ISOClientException;
-import com.imohsenb.iso8583.interfaces.ISOClientEventListener;
-import com.imohsenb.iso8583.interfaces.SocketHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLContext;
@@ -54,7 +51,7 @@ public class IOSocketHandler implements SocketHandler {
     public void init(String host, int port, ISOClientEventListener isoClientEventListener) throws IOException {
 
         this.isoClientEventListener = isoClientEventListener;
-        this.socket = new Socket(host, port);
+        socket = new Socket(host, port);
         postInit();
 
     }

@@ -1,7 +1,6 @@
-package com.imohsenb.iso8583.interfaces;
+package com.imohsenb.iso8583.client;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.exceptions.ISOClientException;
+import com.imohsenb.iso8583.message.ISOMessage;
 
 import java.io.IOException;
 

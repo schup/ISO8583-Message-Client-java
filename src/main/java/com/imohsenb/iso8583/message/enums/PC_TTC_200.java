@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.enums;
+package com.imohsenb.iso8583.message.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

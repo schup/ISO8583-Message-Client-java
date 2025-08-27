@@ -1,9 +1,7 @@
-package com.imohsenb.iso8583.entities;
+package com.imohsenb.iso8583.message;
 
-import com.imohsenb.iso8583.enums.FIELDS;
-import com.imohsenb.iso8583.enums.FieldType;
-import com.imohsenb.iso8583.exceptions.ISOException;
-import com.imohsenb.iso8583.security.ISOMacGenerator;
+import com.imohsenb.iso8583.message.enums.FIELDS;
+import com.imohsenb.iso8583.message.enums.FieldType;
 import com.imohsenb.iso8583.utils.FixedBitSet;
 import com.imohsenb.iso8583.utils.StringUtil;
 import lombok.Getter;
@@ -167,9 +165,9 @@ public class ISOMessage {
 
         try {
 
-            this.header = Arrays.copyOfRange(msg, 0, headerOffset);
-            this.body = Arrays.copyOfRange(msg, headerOffset, msg.length);
-            this.primaryBitmap = Arrays.copyOfRange(body, 2, 10);
+            header = Arrays.copyOfRange(msg, 0, headerOffset);
+            body = Arrays.copyOfRange(msg, headerOffset, msg.length);
+            primaryBitmap = Arrays.copyOfRange(body, 2, 10);
 
             parseHeader();
             parseBody();
@@ -190,7 +188,7 @@ public class ISOMessage {
      * @throws ISOException If an error occurs during message parsing.
      */
     public ISOMessage setMessage(byte[] message) throws ISOException {
-        return this.setMessage(message, true);
+        return setMessage(message, true);
     }
 
     /**

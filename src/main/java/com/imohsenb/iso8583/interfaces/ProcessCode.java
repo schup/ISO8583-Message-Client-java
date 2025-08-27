@@ -1,9 +1,9 @@
 package com.imohsenb.iso8583.interfaces;
 
-import com.imohsenb.iso8583.enums.PC_ATC;
-import com.imohsenb.iso8583.enums.PC_TTC_100;
-import com.imohsenb.iso8583.enums.PC_TTC_200;
-import com.imohsenb.iso8583.exceptions.ISOException;
+import com.imohsenb.iso8583.message.ISOException;
+import com.imohsenb.iso8583.message.enums.PC_ATC;
+import com.imohsenb.iso8583.message.enums.PC_TTC_100;
+import com.imohsenb.iso8583.message.enums.PC_TTC_200;
 
 /**
  * @author Mohsen Beiranvand

@@ -1,4 +1,4 @@
-package com.imohsenb.iso8583.enums;
+package com.imohsenb.iso8583.message.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +8,9 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum PC_ATC {
+public enum MESSAGE_ORIGIN {
 
-    Default("00"),
-    SavingAccount("10"),
-    CheckingAccount("20"),
-    CreditCardAccount("30");
+    Acquirer("0");
 
     private final String code;
 

@@ -1,9 +1,9 @@
 [versions]
-junit = "5.13.3"
-assertj-core = "3.23.0"
-slf4j-api = "2.0.13"
-log4j = "2.25.0"
-lombok-plugin = "8.13.1"
+junit = "5.13.4"
+assertj-core = "3.27.4"
+slf4j-api = "2.0.17"
+log4j = "2.25.1"
+lombok-plugin = "8.14.2"
 sonarqube-plugin = "6.2.0.5505"
 mockito-core = "5.19.0"
 

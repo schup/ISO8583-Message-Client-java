@@ -1,7 +1,7 @@
 package com.imohsenb.iso8583.interfaces;
 
-import com.imohsenb.iso8583.entities.ISOMessage;
-import com.imohsenb.iso8583.exceptions.ISOException;
+import com.imohsenb.iso8583.message.ISOException;
+import com.imohsenb.iso8583.message.ISOMessage;
 
 /**
  * @author Mohsen Beiranvand

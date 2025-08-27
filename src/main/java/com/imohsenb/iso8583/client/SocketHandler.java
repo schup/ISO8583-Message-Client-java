@@ -1,7 +1,4 @@
-package com.imohsenb.iso8583.interfaces;
-
-import com.imohsenb.iso8583.exceptions.ISOClientException;
-import com.imohsenb.iso8583.handlers.SSLHandler;
+package com.imohsenb.iso8583.client;
 
 import java.io.IOException;
 import java.net.SocketException;
